@@ -1,0 +1,270 @@
+" ----------------------------------------------------------GENERAL CONFIG
+" Disable VI 
+set nocompatible
+"Enable syntax processing
+syntax enable
+" Enable Plugins
+filetype plugin on
+
+" ----------------------------------------------------------CUSTOM CONFIG
+" TABS
+" Number of visual spaces per TAB
+set tabstop=2
+" Number of spaces in tab when editing
+set softtabstop=2
+" Number of spaces for indent
+set shiftwidth=2
+" Set tabs as spaces
+set expandtab
+
+" LOOK AND FEEL
+" Distance from top/bottom before scrolling starts
+set scrolloff=15 
+" Turn on auto indenting
+set autoindent 
+" Hide current document in buffer when changing to a new document
+set hidden 
+" Use a visual bell instead of an audible one 
+set visualbell 
+" Show line numbers
+set number          
+" Highlight the line your cursor is in
+" set cursorline 
+
+" Faster scrolling 
+set ttyfast 
+
+" Don't show mode
+set noshowmode
+
+" Ensure syntax highlighting doesnt break for larger files
+set lazyredraw
+set redrawtime=10000
+
+" CODE FOLDING
+set foldmethod=indent " auto set code fold points at indents"
+" Keep all folds open when a file is opened
+augroup OpenAllFoldsOnFileOpen
+    autocmd!
+    autocmd BufRead * normal zR
+augroup END
+
+" FUZZY FINDER
+" Enable fuzzy finder
+set path+=**
+" Show wild menu when fuzzy finding
+set wildmenu
+
+
+" Splits open in a more intuitive way
+ set splitbelow
+ set splitright
+
+" --------------------------------------------------------keyboard shortcuts
+" Escape is jk
+inoremap jk <esc>
+
+" Set leader key ,
+let mapleader = ","
+
+" Open .vimrc
+nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
+
+" COPY FILE PATH
+" Copy relative path into system register
+noremap <leader>cf :let @*=expand("%")
+" Same but for vim register
+nnoremap <leader>u :let @" = expand("%")<cr>
+
+" Disable arrow keys in normal and insert mode
+nnoremap <up> <nop>
+nnoremap <down> <nop>
+nnoremap <left> <nop>
+nnoremap <right> <nop>
+inoremap <up> <nop>
+inoremap <down> <nop>
+inoremap <left> <nop>
+inoremap <right> <nop>
+
+" Alter j and k behaviour to handle wrapped lines
+nnoremap j gj
+nnoremap k gk
+
+" Switch splits without W
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+" Ctags improved mappings
+nnoremap <C-[> <C-t>
+" Ctags open tag in new tab
+nnoremap <silent><Leader><C-]> <C-w><C-]><C-w>T
+" ------------------------------------------------------------------PLUGINS
+" Plug initialiser
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+" Plugins list
+call plug#begin('~/.vim/plugs')
+  Plug 'morhetz/gruvbox' " Gruvbox theme
+  Plug 'w0rp/ale' " Linting and Fixing
+  Plug 'itchyny/lightline.vim' " Status bar
+  Plug 'scrooloose/nerdtree' " Nerdtree file browser
+  Plug 'tpope/vim-obsession' " Restore Vim sessions
+  Plug 'christoomey/vim-tmux-navigator' " Easy switching between vim and tmux panes
+  Plug 'ctrlpvim/ctrlp.vim' " Ctrl P 
+  Plug 'gabesoft/vim-ags' " Silver Searcher 
+  Plug 'tpope/vim-fugitive' " Git tools
+  Plug 'tpope/vim-rails' " Rails syntax highlighting and fanciness for vim
+  Plug 'tpope/vim-commentary' " Comment out things 
+  Plug 'benmills/vimux' " Send commmands to tmux from vim
+  Plug 'jgdavey/vim-turbux' " Easily run Ruby tests from vim
+  Plug 'tpope/vim-endwise' " Auto-insert ends 
+  Plug 'yuezk/vim-js' " JS syntax highlighting
+  Plug 'maxmellon/vim-jsx-pretty' " JSX/React syntax highlighting
+  Plug 'tpope/vim-surround' " Add or change surrounding things like quotes
+  Plug 'tpope/vim-repeat' " Enables plugins to leverage the dot (repeat) command
+  Plug 'posva/vim-vue' " Syntax highlighting for Vue
+  Plug 'mattn/emmet-vim' " Emmet HTML expander
+  Plug 'prettier/vim-prettier', { 'do': 'yarn install' } " Prettier
+  " Plug 'nathanaelkane/vim-indent-guides' " Show indent guides
+  " Plug 'tpope/vim-abolish' " Camel/snake case converter
+  " Plug 'valloric/MatchTagAlways' " Highlights html tags
+  " Plug 'suy/vim-context-commentstring'
+  " Plug 'skywind3000/asyncrun.vim'
+  " Plug 'lumiliet/vim-twig'
+call plug#end()
+
+" ------------------------------------------------------------------PLUGIN CONFIG
+" ----------------------------------------------------------gruvbox 
+set background=dark    " Setting dark mode
+let g:gruvbox_contrast_dark = 'hard'
+colorscheme gruvbox
+
+" ----------------------------------------------------------Ale
+let g:ale_linter_aliases = {'vue': ['vue', 'javascript']}
+let g:ale_linters = {
+      \   'ruby': ['standardrb', 'rubocop'],
+      \   'python': ['flake8', 'pylint'],
+      \   'javascript': ['eslint'],
+      \   'vue': ['eslint', 'vls'],
+      \}
+
+let g:ale_fixers = {
+      \    'ruby': ['standardrb'],
+      \    'javascript': ['eslint'],
+      \}
+let g:ale_fix_on_save = 1
+let g:ale_sign_error = '●'
+let g:ale_sign_warning = '.'
+
+" ----------------------------------------------------------Emmet
+let g:user_emmet_leader_key='`'
+
+
+" ----------------------------------------------------------Async Run
+" " asyncrun config
+" autocmd BufWritePost *.js AsyncRun -post=checktime ./node_modules/.bin/eslint --fix %
+
+
+" ----------------------------------------------------------Indent Guides
+" set ts=2 sw=2 et
+" let g:indent_guides_start_level = 2
+" let g:indent_guides_guide_size = 1
+
+" ----------------------------------------------------------NERDTree
+" Open on the right
+let g:NERDTreeWinPos = "right" 
+" Auto open when vim starts
+function! StartUp()
+    if 0 == argc()
+        NERDTree
+    end
+endfunction
+autocmd VimEnter * call StartUp()
+
+" Close NERDTree when a file is opened
+let NERDTreeQuitOnOpen = 1
+
+" Close the tab when NERDTree is the only window still open 
+" autocmd bufenter * if (winnr(“$”) == 1 && exists(“b:NERDTreeType”) && b:NERDTreeType == “primary”) | q | endif
+
+" Auto-delete buffer files when a file is deleted
+let NERDTreeAutoDeleteBuffer = 1
+
+" Make NERDTree pretty 
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
+
+" Window Size
+" let g:NERDTreeWinSize = 60
+
+nnoremap <Leader>f :NERDTreeFind<CR>
+nnoremap <Leader>v :NERDTreeToggle<CR>
+
+" ----------------------------------------------------------The Silver Searcher
+if executable('ag')
+  " Use ag over grep
+  set grepprg=ag\ --nogroup\ --nocolor
+
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
+
+" Silver Searcher Key Maps
+" Run Ags
+nnoremap \ :Ags<Space>
+" Quit Ags
+nnoremap <Leader><Leader>a :AgsQuit<CR>
+" find files containing word under cursor
+nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+" find files containing word under cursor with quickfix
+nnoremap J :Ags<Space><C-R>=expand('<cword>')<CR><CR>
+" find files for the visually selected text with quickfix 
+vnoremap H y:Ags<Space><C-R>='"' . escape(@", '"*?()[]{}.') . '"'<CR><CR>
+
+
+" ----------------------------------------------------------CtrlP
+" fuzzy search for files
+nnoremap F :CtrlP<Space><Return>
+" ignore .gitignore files
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+
+
+" ----------------------------------------------------------Lightline
+let g:lightline = {
+      \ 'colorscheme': 'molokai',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'readonly', 'filename', 'modified' ] ],
+      \   'right': [ [ 'lineinfo' ],
+      \              [ 'percent' ],
+      \              [ 'gitbranch', 'filetype' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead'
+      \ },
+      \ 'mode_map': {
+        \ 'n' : 'N',
+        \ 'i' : 'I',
+        \ 'R' : 'R',
+        \ 'v' : 'V',
+        \ 'V' : 'VL',
+        \ "\<C-v>": 'VB',
+        \ 'c' : 'C',
+        \ 's' : 'S',
+        \ 'S' : 'SL',
+        \ "\<C-s>": 'SB',
+        \ 't': 'T',
+        \ },
+      \ }
+set laststatus=2
+
+au BufNewFile,BufRead Jenkinsfile setf groovy

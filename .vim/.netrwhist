@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =0
+let g:netrw_dirhist_0='/Users/devonneill/Code/Sijebu/in-school-onboarding-web'
+let g:netrw_dirhist_9='/Users/devonneill/Code/Sijebu/prodigy/app/lib'
+let g:netrw_dirhist_8='/Users/devonneill/Code/Sijebu/applications/app/serializers/in_school'
+let g:netrw_dirhist_7='/Users/devonneill/Code/Sijebu/applications/app/serializers'
+let g:netrw_dirhist_6='/Users/devonneill/Code/Sijebu/applications/app'
+let g:netrw_dirhist_5='/Users/devonneill/Code/Sijebu/applications/app/validators'
+let g:netrw_dirhist_4='/Users/devonneill/Code/Sijebu/applications/app'
+let g:netrw_dirhist_3='/Users/devonneill/Code/Sijebu/applications/app/serializers'
+let g:netrw_dirhist_2='/Users/devonneill/Code/Sijebu/applications/app'
+let g:netrw_dirhist_1='/Users/devonneill/Code/Sijebu/in-school-onboarding-web/src/lib/wizard/selectors'
