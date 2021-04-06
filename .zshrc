@@ -30,10 +30,6 @@ plugins=(
 # Path to oh-my-zsh installation.
 export ZSH="/Users/devonneill/.oh-my-zsh"
 
-# Gem server creds
-export GEMS_USERNAME="admin"
-export GEMS_PASSWORD="hbdr9Ffe%7D%5EU%7BJf9We3q3U%2C"
-
 
 # ----------------------------------FUNCTIONS
 # AWS Get/Set secrets
