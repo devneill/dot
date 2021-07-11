@@ -7,16 +7,14 @@ plugins=(
   git
   zsh-autosuggestions
   zsh-syntax-highlighting
+  asdf
 )
 
 # ----------------------------------ALIASES
- alias setzsh="vim ~/.dot_files/.zshrc"
- alias setvim="vim ~/.dot_files/.vim/vimrc"
+ alias setzsh="vim ~/.zshrc"
+ alias setvim="vim ~/.vimrc"
  alias settmux="vim ~/.dot_files/.tmux.conf"
- alias sij="cd ~/Code/Sijebu"
  alias lsv="ls -a1"
- alias ctags="`brew --prefix`/bin/ctags"
- alias maketags="ctags -R ."
  alias be="bundle exec"
  alias bi="bundle install"
  alias berdbm="bundle exec rake db:migrate"
@@ -28,40 +26,23 @@ plugins=(
 
 # ----------------------------------EXPORTS
 # Path to oh-my-zsh installation.
-export ZSH="/Users/devonneill/.oh-my-zsh"
+export ZSH="/Users/Glends/.oh-my-zsh"
+
+# Turn setup
+export NUMBER=+27600438477
+export DISPLAY_NAME="Ocean Saver number 1"
+export CERTIFICATE="CnUKMQjQxP7Ft+KPAhIGZW50OndhIhhUdXJuLmlvIFFBIERldiA1IChEZXZvbilQ8ub7hgYaQHHuC6jzSx8SZFxMtTNtNau4GgxRWVWG1xE9/KAGwC2LtMfS2Sy4nze6rupMortyfHoDTNFWiLQtVh1TIEclhQASLm0kJKLYhP/k81q1sJ+qbSmRWezhW8LY76A3B06tPMcEcuxDwEVeFgH/btYkrmI="
+export ORGANISATION_NAME="SaveTheOcean"
+export ACCOUNT_EMAIL="user@example.org"
 
 
 # ----------------------------------FUNCTIONS
-# AWS Get/Set secrets
-function aws-generate-secret() {
-  PROFILE=$1
-  SERVICE=$2
-  VALUE=$3
-  aws --region eu-west-1 --profile "prodigy-$PROFILE" kms encrypt --key-id alias/parameter-store \
-      --encryption-context service="$SERVICE" \
-      --cli-binary-format raw-in-base64-out \
-      --plaintext "$VALUE" \
-      --output text --query CiphertextBlob
-}
- 
-function aws-get-secret() {
-  PROFILE=$1
-  SECRET=$2
-  aws --region eu-west-1 ssm get-parameter \
-      --name "$SECRET" \
-      --query 'Parameter.Value' \
-      --output text \
-      --with-decryption \
-      --profile "prodigy-$PROFILE"
-}
-
 # Generate Secret
 genpw(){ openssl rand -base64 24 | tr -dc '[:alnum:]'; }
 
 # ----------------------------------GENERAL CONFIG AND INITIALISERS
 # Set Theme
 ZSH_THEME="theunraveler"
-# ZSH_THEME="wezm"
 
 # Automatically update without prompting.
  DISABLE_UPDATE_PROMPT="true"
@@ -78,12 +59,4 @@ ZSH_THEME="theunraveler"
 # Allow multithreading apps
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
-# version manager initialisers
-eval "$(rbenv init -)"
-eval "$(nodenv init -)"
-
-# thefuck config
-eval $(thefuck --alias)
-
 source $ZSH/oh-my-zsh.sh
-
